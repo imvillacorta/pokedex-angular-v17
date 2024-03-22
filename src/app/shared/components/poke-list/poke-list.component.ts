@@ -10,13 +10,15 @@ import { PokeApiService } from '../../../services/poke-api.service';
 })
 export class PokeListComponent implements OnInit {
   #pokeApiService = inject(PokeApiService);
-  
+  public getAllPokemons: any;
+
   ngOnInit(): void {
     this.#pokeApiService.apilistAllPokemons.subscribe(
-      res => console.log(res)
+      res => {
+        this.getAllPokemons = res.results;
+        console.log(this.getAllPokemons);
+      }
     )
   }
-  
-
 
 }
