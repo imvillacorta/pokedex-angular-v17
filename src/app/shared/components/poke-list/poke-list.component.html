@@ -1,7 +1,8 @@
 @for (pokemon of getAllPokemons; track $index) {
 
 @if (pokemon.status) {
-<a class="pokemon">
+<a class="pokemon"
+   (click)="goToDetails(pokemon.status.id)">
     <section class="pokemon__status">
         <h2>
             {{pokemon.name}}

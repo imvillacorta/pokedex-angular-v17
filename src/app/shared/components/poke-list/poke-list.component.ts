@@ -1,4 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { PokeApiService } from '../../../services/poke-api.service';
 
 @Component({
@@ -10,6 +12,7 @@ import { PokeApiService } from '../../../services/poke-api.service';
 })
 export class PokeListComponent implements OnInit {
   #pokeApiService = inject(PokeApiService);
+  #route = inject(Router);
   public getAllPokemons: any;
 
   ngOnInit(): void {
@@ -19,6 +22,12 @@ export class PokeListComponent implements OnInit {
         console.log(this.getAllPokemons);
       }
     )
+  }
+
+  public goToDetails(id: number) {
+    this.#route.navigate([
+      `/details/${id}`,
+    ]);
   }
 
 }
