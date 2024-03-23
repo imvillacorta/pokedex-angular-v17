@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, forkJoin, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,11 @@ import { Observable, map, tap } from 'rxjs';
 export class PokeApiService {
 
   #http = inject(HttpClient);
-  #api: string = environment.api;
+  #apiPokemon: string = environment.apiPokemon;
+  #apiPokemonSpecies: string = environment.apiPokemonSpecies;
 
   get apilistAllPokemons(): Observable<any> {
-    return this.#http.get<any>(this.#api).pipe(
+    return this.#http.get<any>(this.#apiPokemon + '?offset=0&limit=100').pipe(
       tap(res => res),
       tap(res => {
         res.results.map((resPokemons: any) => {
@@ -30,6 +31,13 @@ export class PokeApiService {
         res => res
       )
     )
+  }
+
+  public detailsPokemon(id: any) {
+    const pokemon = this.apiGetPokemons(this.#apiPokemon + `${id}`);
+    const speciesPokemon = this.apiGetPokemons(this.#apiPokemonSpecies + `${id}`);
+
+    return forkJoin([pokemon, speciesPokemon]);
   }
 
 }
