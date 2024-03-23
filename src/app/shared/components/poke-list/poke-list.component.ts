@@ -2,24 +2,29 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PokeApiService } from '../../../services/poke-api.service';
+import { PokeSearchComponent } from '../poke-search/poke-search.component';
 
 @Component({
   selector: 'app-poke-list',
   standalone: true,
-  imports: [],
+  imports: [
+    PokeSearchComponent
+  ],
   templateUrl: './poke-list.component.html',
   styleUrl: './poke-list.component.scss'
 })
 export class PokeListComponent implements OnInit {
   #pokeApiService = inject(PokeApiService);
   #route = inject(Router);
+  
+  #setAllPokemons: any;
   public getAllPokemons: any;
 
   ngOnInit(): void {
     this.#pokeApiService.apilistAllPokemons.subscribe(
       res => {
-        this.getAllPokemons = res.results;
-        console.log(this.getAllPokemons);
+        this.#setAllPokemons = res.results;
+        this.getAllPokemons = this.#setAllPokemons;
       }
     )
   }
@@ -28,6 +33,13 @@ export class PokeListComponent implements OnInit {
     this.#route.navigate([
       `/details/${id}`,
     ]);
+  }
+
+  public getSearch(value: string) {
+    const filter = this.#setAllPokemons.filter((res: any) => {
+      return !res.name.indexOf(value.toLocaleLowerCase());
+    });
+    this.getAllPokemons= filter;
   }
 
 }
