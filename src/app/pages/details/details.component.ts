@@ -14,6 +14,8 @@ export default class DetailsComponent implements OnInit {
   #pokeApiService = inject(PokeApiService);
   public getId = signal<null | string>(null);
   public pokemon: any;
+  public isLoading: boolean = false;
+  public apiError: boolean = false;
 
   // RESGATA PARAMETRO ID QUE VEM DA URL
   @Input() set id(id: string) {
@@ -29,7 +31,10 @@ export default class DetailsComponent implements OnInit {
       .subscribe(
         res => {
           this.pokemon = res;
-          console.log('pokemon', this.pokemon);
+          this.isLoading = true;
+        },
+        error => {
+          this.apiError = true;
         }
       )
   }

@@ -1,4 +1,5 @@
 <main>
+    @if (isLoading) {
     <section class="pokemon__names">
         <h1>{{pokemon[0].name}}</h1>
         <h2>{{pokemon[1].names[0].name}}</h2>
@@ -31,4 +32,14 @@
 
         </article>
     </section>
+    }
+    @else if (apiError){
+    <img src="assets/error.png"
+         alt="Erro ao exibir Pokemon"
+         width="100%">
+    }
+    @else {
+    <!-- TODO: CRIAR LAYOUT DE LOADING -->
+    }
+
 </main>

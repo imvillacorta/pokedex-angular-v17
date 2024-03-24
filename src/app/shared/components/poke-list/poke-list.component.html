@@ -1,3 +1,5 @@
+@if (isLoading) {
+
 <app-poke-search (emmitSearch)="getSearch($event)" />
 
 <section class="listing">
@@ -27,3 +29,12 @@
 
     }
 </section>
+}
+@else if(apiError){
+<img src="assets/error.png"
+     alt="Erro ao exibir Pokemon"
+     width="100%">
+}
+@else {
+<!-- TODO: CRIAR LAYOUT DE LOADING -->
+}
